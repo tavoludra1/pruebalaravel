@@ -28,8 +28,6 @@ services:
             - meilisearch
             - mailpit
             - selenium
-            - phpmyadmin
-
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -46,21 +44,6 @@ services:
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
             - sail
-
-    phpmyadmin:
-        image: 'phpmyadmin:latest'
-        ports:
-            - 8081:80
-        environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-        links:
-            - "mysql:db"
-        depends_on:
-            - mysql
-        networks:
-            - sail
-
-
         healthcheck:
             test:
                 - CMD
@@ -109,7 +92,7 @@ services:
         networks:
             - sail
     selenium:
-        image: seleniarm/standalone-chromium
+        image: selenium/standalone-chrome
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         volumes:
